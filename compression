@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 int main() {
-    std::ifstream inputFile("input.txt");
-    std::ofstream compressedFile("compressed.txt");
+    ifstream inputFile("input.txt");
+    ofstream compressedFile("compressed.txt");
 
     // Close files
     inputFile.close();
