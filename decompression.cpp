@@ -2,8 +2,8 @@
 #include <fstream>
 
 int main() {
-    std::ifstream compressedFile("compressed.txt");
-    std::ofstream decompressedFile("decompressed.txt");
+    ifstream compressedFile("compressed.txt");
+    ofstream decompressedFile("decompressed.txt");
 
     // Close files
     compressedFile.close();
