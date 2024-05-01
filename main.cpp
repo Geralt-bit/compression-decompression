@@ -1,48 +1,61 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void compress(const string& inputFile, const string& outputFile) {
-    map<string, int> dictionary;
+void compress(const string& inputFile, const string& compressedFile) {
     ifstream fin(inputFile);
-    ofstream fout(outputFile);
+    ofstream fout(compressedFile);
 
-    int index = 0;
-    string word;
-    while (fin >> word) {
-        if (dictionary.find(word) == dictionary.end()) {
-            dictionary[word] = index++;
+    char prevChar;
+    int count = 1;
+    char currentChar;
+    fin.get(currentChar);
+    prevChar = currentChar;
+
+    while (fin.get(currentChar)) {
+        if (currentChar == prevChar) {
+            count++;
         }
-        fout << dictionary[word] << " ";
+        else {
+            fout << count << prevChar << " ";
+            count = 1;
+        }
+        prevChar = currentChar;
     }
+
+    fout << count << prevChar;
 
     fin.close();
     fout.close();
+
+    cout << "Compression successful." << endl;
 }
 
-void decompress(const string& inputFile, const string& outputFile) {
-    map<int, string> dictionary;
-    ifstream fin(inputFile);
-    ofstream fout(outputFile);
+void decompress(const string& compressedFile, const string& decompressedFile) {
+    ifstream fin(compressedFile);
+    ofstream fout(decompressedFile);
 
-    string line;
-    while (getline(fin, line)) {
-        istringstream iss(line);
-        int index;
-        while (iss >> index) {
-            if (dictionary.find(index) == dictionary.end()) {
-                cerr << "Error: Index not found in dictionary." << endl;
-                return;
-            }
-            fout << dictionary[index] << " ";
+    int count;
+    char character;
+
+    while (fin >> count >> character) {
+        for (int i = 0; i < count; i++) {
+            fout << character;
         }
     }
 
     fin.close();
     fout.close();
+
+    cout << "Decompression successful." << endl;
 }
 
 int main() {
-    compress("input.txt", "compressed.txt");
-    decompress("compressed.txt", "decompressed.txt");
+    string inputFileName = "input.txt";
+    string compressedFileName = "compressed.txt";
+    string decompressedFileName = "decompressed.txt";
+
+    compress(inputFileName, compressedFileName);
+    decompress(compressedFileName, decompressedFileName);
+
     return 0;
 }
